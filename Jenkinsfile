@@ -21,7 +21,7 @@ pipeline {
         
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t webapp:v${BUILD_NUMBER} ."
+                sh "docker build -t mavenapp:v${BUILD_NUMBER} ."
             }
         }
         
@@ -29,8 +29,8 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
         	        sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-                    sh "docker tag webapp:v${BUILD_NUMBER} ${env.dockerHubUser}/webapp:v${BUILD_NUMBER}"
-                    sh "docker push ${env.dockerHubUser}/webapp:v${BUILD_NUMBER}"
+                    sh "docker tag mavenapp:v${BUILD_NUMBER} ${env.dockerHubUser}/mavenapp:v${BUILD_NUMBER}"
+                    sh "docker push ${env.dockerHubUser}/mavenapp:v${BUILD_NUMBER}"
                 }
 
             }
